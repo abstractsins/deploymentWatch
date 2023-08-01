@@ -1,0 +1,11 @@
+{
+  "name": "deployment-watch",
+  "version": "1.0.0",
+  "description": "watches folder and copies to android",
+  "main": "watchDeploymentFolder.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "djb",
+  "license": "ISC"
+}
