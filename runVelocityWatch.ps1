@@ -1,0 +1,1 @@
+node "D:\Projects\Deployment Watch\watchVelocityProjectFolder.js"

@@ -11,7 +11,7 @@ colors.lightGreen = clc.xterm(83);
 colors.lightCyan = clc.xterm(81);
 colors.perrywinkle = clc.xterm(105);
 
-const watchFolder = 'C:/Users/Hot Nickels/OneDrive - Procensis/ACTUAL STUFF/Deployments/__WATCH FOLDER';
+const watchFolder = 'C:/Users/Hot Nickels/OneDrive - Barcoding, Inc/ACTUAL STUFF/Deployments/__WATCH FOLDER';
 const androidDestination = '/sdcard/Android/data/com.wavelink.velocity/files';
 
 var count = 0;
