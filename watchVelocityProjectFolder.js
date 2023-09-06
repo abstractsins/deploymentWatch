@@ -154,6 +154,10 @@ watcher
 
 function writeToLog(log){
 
+  log = log.replaceAll('[92m╪[39m', '');
+  log = log.replaceAll('[96m', '');
+  log = log.replaceAll('[39m', '');
+ 
   fs.stat(logFile, (err, stats) => {
     if (err) {
       if (err.code === 'ENOENT') {
