@@ -2,6 +2,7 @@
 
 const chokidar = require('chokidar');
 const { exec } = require('child_process');
+const fs = require('fs');
 
 const clc = require('cli-color');
 let colors = {};
@@ -16,6 +17,17 @@ const androidDestination = '/sdcard/Android/data/com.wavelink.velocity/files';
 
 var count = 0;
 
+// LOG DATING
+const lastRunTime = new Date();
+const logPath = 'C:/Users/Hot Nickels/OneDrive - Barcoding, Inc/nodeLogs/'; // Update this to the destination local folder
+let month = () => lastRunTime.getMonth()+1 < 10 ? '0'+(lastRunTime.getMonth()+1) : ''+(lastRunTime.getMonth()+1);
+let date = () => lastRunTime.getDate() < 10 ? '0'+lastRunTime.getDate() : ''+lastRunTime.getDate();
+var logDate = ''+lastRunTime.getFullYear() + month() + date();
+var logName = 'AndroidDeploymentLog-' + logDate + '.txt';
+var logFile = logPath+logName;
+var logCheck = false;
+
+// COPY TO ANDROID
 function copyToAndroid(file){
   const adbCmd = `adb push "${file}" ${androidDestination}`;
   var fileArr = file.split('\\');
@@ -25,13 +37,16 @@ function copyToAndroid(file){
     if (error) {
 
       console.error(`\n${clc.red('╔╩╬╩╗')} Failed to copy file to Android: ${fileAbbr}`);
+      writeToLog(`ERROR: Failed to copy file to Android: ${fileAbbr}`)
 
     } else {
       logTransfer(fileAbbr);
+      writeToLog(fileAbbr);
     }
   });
 };
 
+// LOG TRANSFER
 function logTransfer(fileAbbr){
   count++;
   if (count < 10) {
@@ -109,6 +124,12 @@ function logTransfer(fileAbbr){
   console.log(sourceLine);           
   console.log(androidLine);
   console.log(lastLine);
+  
+  writeToLog(firstLine +' --------');           
+  // writeToLog(firstLine);           
+  writeToLog(sourceLine);           
+  writeToLog(androidLine);
+  writeToLog('\n');           
 
 }
 
@@ -118,8 +139,78 @@ const watcher = chokidar.watch(watchFolder, {
 });
 
 watcher
-  .on('add', copyToAndroid)
-  .on('change', copyToAndroid);
+.on('add', copyToAndroid)
+.on('change', copyToAndroid);
+
+
+function writeToLog(log){
+
+  log = log.replaceAll('[90m', '');
+  log = log.replaceAll('[91m', '');
+  log = log.replaceAll('[92m╪', '');
+  log = log.replaceAll('[92m', '');
+  log = log.replaceAll('[96m', '');
+  log = log.replaceAll('[39m', '');
+  log = log.replaceAll('║', '');
+  log = log.replaceAll('│', '');
+  log = log.replaceAll('═', '');
+  log = log.replaceAll('╔', '');
+  log = log.replaceAll('╕', '');
+  
+  fs.stat(logFile, (err, stats) => {
+    if (err) {
+      if (err.code === 'ENOENT') {
+        
+        if (logCheck === false) {
+
+          console.log(`${colors.lightGreen('╪')} File ${logName} does not exist. Creating.`);
+          // Handle the case where the file does not exist.
+          
+          logCheck = true;
+          
+        }
+          
+        // Write to the file
+        fs.writeFileSync(logFile, log+'\n', (err) => {
+          if (err) {
+            console.error(`${clc.red('╪')} Error writing to file:`, err);
+          } else {
+            if (logCheck === false) {
+              console.log(`${colors.lightGreen('╪')} Data has been written to`, logName);
+            }
+          }
+        });
+
+      } else {
+        console.error(`${clc.red('╪')} Error checking file existence:`, err);
+        // Handle other errors that may occur during the file check.
+      }
+    } else {
+
+      if (logCheck === false) {
+
+        console.log(`${clc.yellow('╪')} File ${logName} exists. Appending.`);
+        // You can perform further operations here, like reading or deleting the file.
+      
+        logCheck = true;
+
+      }
+
+      // Write to the file
+      fs.appendFileSync(logFile, log+'\n', (err) => {
+        if (err) {
+          console.error(`${clc.red('╪')} Error writing to file:`, err);
+        } else {
+          if (logCheck === false) {
+            console.log(`${colors.lightGreen('╪')} Data has been appended to`, logName);
+          }
+        }
+      });
+
+    }
+  });
+
+}
 
 console.log(`Watching folder: ${watchFolder}`);
 
