@@ -110,6 +110,7 @@ watcher
       return fs.promises.mkdir(destinationPath, { recursive: true })
         .then(() => {
           console.log(`${colors.lightGreen('╪═')} Created directory: ${colors.lightPurple(destinationPath)}`);
+          writeToLog(`+ Created directory: ${destinationPath}`);
         })
         .catch((err) => {
           console.error(`${clc.red('╪═')} Failed to create directory: ${destinationPath}`);
@@ -125,7 +126,7 @@ watcher
     await fs.promises.access(destinationPath, fs.constants.F_OK);
     await fs.promises.rm(destinationPath);
     console.log(`${clc.yellow('╪')} Removed item: ${destinationPath}`);
-    writeToLog(`Removed item: ${destinationPath}`);
+    writeToLog(`- Removed item: ${destinationPath}`);
   } catch (err) {
     if (err.code !== 'ENOENT') {
       console.error(`${clc.red('╪')} Failed to remove item: ${destinationPath}`);
@@ -141,7 +142,7 @@ watcher
     await fs.promises.access(destinationPath, fs.constants.F_OK);
     await fs.promises.rm(destinationPath, { recursive: true });
     console.log(`${clc.yellow('╪═')} Removed directory: ${destinationPath}`);
-    writeToLog(`Removed directory: ${destinationPath}`);
+    writeToLog(`- Removed directory: ${destinationPath}`);
   } catch (err) {
     if (err.code !== 'ENOENT') {
       console.error(`${clc.red('╪═')} Failed to remove directory: ${destinationPath}`);
