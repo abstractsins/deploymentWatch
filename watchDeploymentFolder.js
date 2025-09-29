@@ -12,14 +12,14 @@ colors.lightGreen = clc.xterm(83);
 colors.lightCyan = clc.xterm(81);
 colors.perrywinkle = clc.xterm(105);
 
-const watchFolder = 'C:/Users/Hot Nickels/OneDrive - Barcoding, Inc/ACTUAL STUFF/Deployments/__WATCH FOLDER';
+const watchFolder = 'D:/OneDrive - Barcoding, Inc/ACTUAL STUFF/Deployments/__WATCH FOLDER';
 const androidDestination = '/sdcard/Android/data/com.wavelink.velocity/files';
 
 var count = 0;
 
 // LOG DATING
 const lastRunTime = new Date();
-const logPath = 'C:/Users/Hot Nickels/OneDrive - Barcoding, Inc/nodeLogs/'; // Update this to the destination local folder
+const logPath = 'D:/OneDrive - Barcoding, Inc/nodeLogs/'; // Update this to the destination local folder
 let month = () => lastRunTime.getMonth()+1 < 10 ? '0'+(lastRunTime.getMonth()+1) : ''+(lastRunTime.getMonth()+1);
 let date = () => lastRunTime.getDate() < 10 ? '0'+lastRunTime.getDate() : ''+lastRunTime.getDate();
 var logDate = ''+lastRunTime.getFullYear() + month() + date();

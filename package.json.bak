@@ -18,17 +18,7 @@
   },
   "homepage": "https://github.com/abstractsins/deploymentWatch#readme",
   "engines": {
-    "node": "22.x"
+    "node": "20.x"
   },
-  "packageManager": "pnpm@10.17.1",
-  "dependencies": {
-    "child_process": "^1.0.2",
-    "chokidar": "^4.0.3",
-    "cli-color": "^2.0.4",
-    "events": "^3.3.0",
-    "fs": "0.0.1-security",
-    "os": "^0.1.2",
-    "path": "^0.12.7",
-    "readdirp": "^4.1.2"
-  }
+  "packageManager": "pnpm@10.17.0"
 }
